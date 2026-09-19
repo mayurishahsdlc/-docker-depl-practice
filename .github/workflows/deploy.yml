@@ -1,0 +1,27 @@
+name: Docker Deployment
+
+on:
+  push:
+   branches:
+     -main
+
+jobs:
+ deploy:
+   runs-on: ubuntu-latest
+
+   steps:
+
+     -name: Deploy to EC2
+      uses: appleboy/ssh-action@v1.2.0
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ubuntu
+        key: ${{ secrets.EC2_SSH_KEY }}
+
+        script: |
+          cd ~/docker-depl-prac
+          git pull origin main
+          docker-compose down
+          docker-compose up -d --build
+          docker-compose ps
+
