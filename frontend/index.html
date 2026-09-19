@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Docker Deployment Practice</title>
+</head>
+
+<body>
+
+    <h1>Docker Deployment Practice</h1>
+
+    <p>Frontend is running successfully!</p>
+
+    <button onclick="checkBackend()">Check Backend</button>
+
+    <p id="result"></p>
+
+    <script>
+        async function checkBackend() {
+            try {
+                const response = await fetch("http://" + window.location.hostname + ":4000/health");
+                const data = await response.json();
+
+                document.getElementById("result").innerText =
+                    "Backend Status: " + data.status;
+            } catch (error) {
+                document.getElementById("result").innerText =
+                    "Backend connection failed";
+            }
+        }
+    </script>
+
+</body>
+</html>
